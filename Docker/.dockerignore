@@ -1,0 +1,61 @@
+# Fichiers de développement
+.git
+.gitignore
+README.md
+*.md
+
+# Fichiers de cache et temporaires
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache
+.coverage
+htmlcov
+
+# Environnements virtuels
+venv/
+env/
+ENV/
+
+# Fichiers de logs
+*.log
+logs/
+
+# Fichiers de données temporaires
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Fichiers de configuration locaux
+.env
+.env.local
+.env.*.local
+
+# Fichiers IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Fichiers de build
+build/
+dist/
+*.egg-info/
+
+# Tests
+test/
+tests/
+*_test.py
+test_*.py
+
+# Documentation
+docs/
+*.rst
+
+# Fichiers de sauvegarde
+*.bak
+*.backup 

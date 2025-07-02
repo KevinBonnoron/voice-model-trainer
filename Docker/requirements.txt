@@ -1,0 +1,13 @@
+# Core dependencies (stable versions)
+torch==2.7.1
+numpy<2
+setuptools
+wheel
+
+# ML/Audio dependencies
+torchmetrics==0.11.4
+librosa
+numba
+
+# Export dependencies
+onnxsim

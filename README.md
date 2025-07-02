@@ -24,29 +24,36 @@ Once the image is built, use the `run.sh` script to execute the main steps of th
 
 The script supports the following main subcommands:
 
-#### Preprocess
+### 🔧 Preprocess
 
 Used to prepare your input audio/text data before training:
 
 ```bash
-./run.sh preprocess -i /path/to/your/dataset -o /path/to/output
+./run.sh preprocess [options]
 ```
 
-- `-i`, `--input`: Path to the raw dataset (required)
-- `-o`, `--output`: Path where preprocessed data will be saved (required)
+Available options:
+- `-i`, `--input`                      : Path to the raw dataset (required)
+- `-o`, `--output`                     : Path where preprocessed data will be saved (required)
+- `-l`, `--language LANGUAGE`          : Set the preprocess language (default: `en-us`)
+- `-s`, `--sample-rate SAMPLE_RATE`    : Set the preprocess sample rate (default: `22050`)
+- `-m`, `--multiple-speaker VALUE`     : Set the multiple speaker mode (default: `false`)
+- `-f`, `--format FORMAT`              : Set the dataset format: `ljspeech` (default: `ljspeech`)
+- `-h`, `--help`                       : Show help message
 
-#### Train
+Example:
+
+```bash
+./run.sh preprocess -i ./input -o ./dataset
+```
+
+
+#### 🎯 Train
 
 Used to start training the voice model:
 
 ```bash
 ./run.sh train [options]
-```
-
-Example:
-
-```bash
-./run.sh train -d ./data -a gpu --devices 1 -b 32 -m 10000 -p 32
 ```
 
 Available options:
@@ -61,6 +68,54 @@ Available options:
 - `-r`, `--resume-from-checkpoint`     : Path to a checkpoint file to resume training
 - `-h`, `--help`                       : Display help and exit
 
+Example:
+
+```bash
+./run.sh train -d ./data -a gpu --devices 1 -b 32 -m 10000 -p 32
+```
+
+#### 🎵 Generate
+
+Used to generate test sentences from a trained model:
+
+```bash
+./run.sh generate [options]
+```
+
+Available options:
+
+- `-o`, `--output PATH`              : Path to save generated test data (required)
+- `-s`, `--sentences-file FILE`      : Path to the sentences file in jsonl format (required)
+- `-c`, `--checkpoint-file`          : Path to the checkpoint file in ckpt format (required)
+- `-h`, `--help`                     : Show help message
+
+Example:
+
+```bash
+./run.sh generate -o ./output -s ./en-us.jsonl -c ./checkpoint.ckpt
+```
+
+#### 🚀 Export
+
+Used to export a trained model in different formats:
+
+```bash
+./run.sh export [options]
+```
+
+Available options:
+
+- `-o`, `--output PATH`              : Path to save exported data (required)
+- `-c`, `--checkpoint-file`          : Path to the checkpoint file in ckpt format (required)
+- `-f`, `--format FORMAT`            : Exported format: `onnx` (default: `onnx`)
+- `-h`, `--help`                     : Show help message
+
+Example:
+
+```bash
+./run.sh export -o ./exported-model -c ./checkpoint.ckpt
+```
+
 ---
 
 ## 📁 Directory Structure
@@ -69,8 +124,11 @@ Example structure of your dataset:
 
 ```
 /your-dataset/
-├── audio.wav
-├── transcript.txt
+├── wavs/
+    ├── 0001.wav
+    ├── 0002.wav
+    └── ...
+├── dataset.csv
 └── ...
 ```
 
@@ -81,7 +139,7 @@ Ensure that input paths are absolute or relative to the project root.
 ## 🛠 Requirements
 
 - Docker
-- Bash-compatible shell (e.g., bash, zsh)
+- Any shell (e.g., bash, zsh)
 
 No need to install Python or dependencies locally — everything runs inside the container.
 
@@ -92,8 +150,11 @@ No need to install Python or dependencies locally — everything runs inside the
 Run:
 
 ```bash
+./run.sh --help
 ./run.sh preprocess --help
 ./run.sh train --help
+./run.sh generate --help
+./run.sh export --help
 ```
 
 to see all available options.
