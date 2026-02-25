@@ -11,3 +11,6 @@ numba
 
 # Export dependencies
 onnxsim
+
+# Transcription dependencies
+openai-whisper

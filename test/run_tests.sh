@@ -15,7 +15,7 @@ TEST_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(cd "$TEST_DIR/.." && pwd)"
 
 # Available test suites
-TEST_SUITES="run preprocess train generate export"
+TEST_SUITES="run augment metadata train export"
 
 # Function to run a specific test suite
 run_test_suite() {

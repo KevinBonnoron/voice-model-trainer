@@ -1,0 +1,26 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Package shell scripts
+        run: |
+          tar -czf voice-model-trainer-${{ github.ref_name }}.tar.gz \
+            run.sh src/*.sh
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: voice-model-trainer-${{ github.ref_name }}.tar.gz

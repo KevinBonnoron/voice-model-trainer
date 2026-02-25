@@ -1,8 +1,14 @@
 #!/bin/sh
 
+# Resolve repo root so utils work when run.sh is sourced (e.g. from tests) or run from any cwd
+if [ -f "./src/utils.sh" ]; then
+  . "./src/utils.sh"
+else
+  . "$(dirname "$0")/src/utils.sh"
+fi
+
 normalize_command() {
   case "$1" in
-  pre-process | pre-processing | preprocessing) echo "preprocess" ;;
   train | training) echo "train" ;;
   -h | --help | help | "") echo "help" ;;
   *) echo "$1" ;;
@@ -14,10 +20,10 @@ show_help_general() {
 Usage: $0 <command> [options]
 
 Commands (aliases allowed):
-  preprocess                Run preprocessing (aliases: pre-process, pre-processing, preprocessing)
-  train                     Train the model (aliases: training)
-  generate                  Generate audio from checkpoint and sentences file
-  export                    Export onnx file
+  augment                   Augment audio data with random transformations
+  metadata                  Generate metadata.csv from audio files and transcriptions
+  train                     Train a voice model (aliases: training)
+  export                    Export a trained model to onnx or generator format
 
 Use '$0 <command> --help' for more information on a command.
 EOF
@@ -34,17 +40,17 @@ case "$COMMAND" in
 help)
   show_help_general
   ;;
-preprocess)
-  . "./src/preprocess.sh"
-  run_preprocess "$@"
+augment)
+  . "./src/augment.sh"
+  run_augment "$@"
+  ;;
+metadata)
+  . "./src/metadata.sh"
+  run_metadata "$@"
   ;;
 train)
   . "./src/train.sh"
   run_train "$@"
-  ;;
-generate)
-  . "./src/generate.sh"
-  run_generate "$@"
   ;;
 export)
   . "./src/export.sh"
